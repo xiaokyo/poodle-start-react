@@ -1,0 +1,46 @@
+{
+  "name": "poodle",
+  "version": "1.0.0",
+  "description": "xiaokyo quickly create react app",
+  "bin": {
+    "poodle": "./bin/index.js"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "xiaokyo <xiaokyooliver@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.6.0",
+    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-import": "^1.12.0",
+    "babel-plugin-react-css-modules": "^5.2.6",
+    "chalk": "^2.4.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "commander": "^3.0.2",
+    "core-js": "^3.1.4",
+    "css-loader": "^3.0.0",
+    "express": "^4.17.1",
+    "file-loader": "^4.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "http-proxy-middleware": "^0.20.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-less": "^3.1.4",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

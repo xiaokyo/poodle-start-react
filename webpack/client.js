@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 //babelOptions
 const babelOptions = require('../babel.config');
@@ -48,7 +48,7 @@ module.exports = ({
     output: {
       path: dirOut,
       publicPath,
-      filename: `[name].[hash].js`,
+      filename: `${isDev ? '[name]' : '[name].[contenthash:8]'}.js`,
     },
     resolve: { alias },
     module: {
@@ -125,7 +125,7 @@ module.exports = ({
               loader: 'url-loader',
               options: {
                 limit: 8192, //小于8kg的会进行base64的保存方式导出到js
-                name: '[hash].[ext]',
+                name: `${isDev ? '[name]' : '[contenthash:8]'}.[ext]`,
               },
             },
           ],
@@ -135,6 +135,8 @@ module.exports = ({
     optimization: {
       minimize: false,
       splitChunks: {
+        // chunks: 'all',
+        // name: false,
         cacheGroups: {
           styles: {
             name: 'styles',
@@ -154,9 +156,9 @@ module.exports = ({
         ...htmlWebpackOptions,
         template: path.join(__dirname, '../public/index.kade'),
       }),
-      // new CleanWebpackPlugin(),
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: `${isDev ? 'name' : '[name].[hash]'}.css`,
+        filename: `${isDev ? 'name' : '[name].[contenthash:8]'}.css`,
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       new OptimizeCssAssetsPlugin(),

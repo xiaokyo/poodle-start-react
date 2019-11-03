@@ -10,14 +10,14 @@ program
   .command('dev')
   .description('运行开发环境')
   .action(function () {
-    useServer(rootPath)
+    useServer()
   })
 
 program
   .command('build')
   .description('打包生产环境')
   .action(function () {
-    useServer(rootPath, 'production')
+    useServer('production')
   })
 
 program.parse(process.argv);

@@ -20,8 +20,9 @@ const PORT = 8080// port
 //   changeOrigoin: true
 // }
 
-function useServer(rootPath = '', mode = 'development') {
+function useServer(mode = 'development') {
   log(`${successLog('WAITING')} starting webpack bundle......`)
+  const rootPath = process.cwd()
   const getWebpack = require('./webpack/client.js')
   const getServerWebpack = require('./webpack/server.js')
   const common = require('./webpack/common')
@@ -72,39 +73,33 @@ function useServer(rootPath = '', mode = 'development') {
 const webpackBuild = (compiler) => {// 生产环境
   compiler.run((err, stats) => {
     if (err) {
-      log(`${errLog('ERROR')} ${err}`);
-      return;
+      log(`${errLog('ERROR')} ${err}`)
+      return
     }
 
     const info = stats.toJson()
-    const { chunks } = info
+    const { children, errors } = info
 
-    if (chunks) {
-      log()
-      log(' files size')
-      log()
-      chunks.forEach(item => {
-        const { files } = item
-        files.forEach(_ => {
-          blueLog(`    ${_}  ${(item.size / 1024).toFixed(2)} KB`)
-        })
-      })
-      log()
+    if (stats.hasErrors()) {
+      log(`${errLog('ERROR')} ${errors}`)
+      return
     }
 
-    log(`${successLog('DONE')} webpack build success`)
+    children.forEach(item => {
+      const { chunks } = item
+      bundleLog(chunks)
+    })
+
   })
 }
 
 const webpackServer = async ({ compiler, webpackConfig }) => {// 开发服务启动
 
   const _clientCompiler = compiler.compilers[0]
-  const _serverCompiler = compiler.compilers[1]
-  const _serverCompilerPromise = compilerPromise(compiler.compilers[1])
 
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    return next();
+    res.header('Access-Control-Allow-Origin', '*')
+    return next()
   });
 
   app.use(require('webpack-dev-middleware')(_clientCompiler, {// webpack-dev-middleware options
@@ -116,52 +111,20 @@ const webpackServer = async ({ compiler, webpackConfig }) => {// 开发服务启
   app.use(require("webpack-hot-middleware")(_clientCompiler))// hmr
   app.use(express.static(path.join(__dirname, "dist")))
   app.listen(PORT)
-
-
-  // 服务端代码更新监听
-  _serverCompiler.watch({ ignored: /node_modules/ }, (error, stats) => {
-    if (!error && !stats.hasErrors()) {
-      log(`${successLog('SUCCESS')} server watch...`)
-      return
-    }
-    if (error) {
-      log(error, 'error')
-    }
-  })
-
-  await _serverCompilerPromise
-
-  const script = nodemon({
-    script: `${rootPath}/dist/server/server.js`,
-    ignore: ['src', 'public', 'config', './*.*', 'dist/assets'],
-  })
-
-  script.on('restart', () => {
-    console.log('Server side app has been restarted.')
-  })
-
-  script.on('quit', () => {
-    console.log('Process ended')
-    process.exit()
-  });
-
-  script.on('error', () => {
-    console.log('An error occured. Exiting')
-    process.exit(1)
-  })
-
 }
 
-const compilerPromise = (compiler) => {
-  return new Promise((resolve, reject) => {
-    // console.log(compiler)
-    compiler.plugin('done', (stats) => {
-      if (!stats.hasErrors()) {
-        return resolve()
-      }
-      return reject('Compilation failed')
-    });
-  });
-};
+const bundleLog = (chunks) => {// 打包成功后输出
+  log()
+  log(' files size')
+  log()
+  chunks.forEach(item => {
+    const { files } = item
+    files.forEach(_ => {
+      blueLog(`    ${_}  ${(item.size / 1024).toFixed(2)} KB`)
+    })
+  })
+  log()
+  log(`${successLog('DONE')} webpack build success`)
+}
 
 module.exports = { useServer }

@@ -1,16 +1,20 @@
 {
   "name": "poodle-xiaokyo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "xiaokyo quickly create react app",
+  "main": "./bin/index.js",
   "bin": {
     "poodle": "./bin/index.js"
   },
+  "files": [
+    "server.js"
+  ],
   "engines": {
     "node": ">=8.0.0"
   },
   "author": "xiaokyo <xiaokyooliver@gmail.com>",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",

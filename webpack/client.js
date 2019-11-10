@@ -57,13 +57,13 @@ module.exports = ({
           test: /\.m?js$/,
           exclude: /(node_modules|bower_components)/,
           use: {
-            loader: 'babel-loader',
+            loader: require.resolve('babel-loader'),
             options: {
               ...babelOptions,
               plugins: [
                 ...babelOptions.plugins,
                 [
-                  'import',
+                  require.resolve('babel-plugin-import'),
                   {
                     libraryName: 'antd',
                     libraryDirectory: 'es',
@@ -80,9 +80,9 @@ module.exports = ({
           include: /(node_modules)/, //指定文件夹中的样式文件
           use: [
             { loader: MiniCssExtractPlugin.loader },
-            'css-loader',
+            require.resolve('css-loader'),
             {
-              loader: 'less-loader',
+              loader: require.resolve('less-loader'),
               options: {
                 // modifyVars: {
                 // 	'primary-color': '#e3a86c',
@@ -94,21 +94,21 @@ module.exports = ({
           ],
         },
         {
-          test: /\.(less|css)$/,
+          test: /\.(less)$/,
           exclude: /(node_modules|bower_components)/, //排除文件件
           use: [
             { loader: MiniCssExtractPlugin.loader },
             {
-              loader: 'css-loader',
+              loader: require.resolve('css-loader'),
               options: {
                 modules: {
                   localIdentName: common.localIdentName,
                 },
               },
             },
-            'less-loader',
+            require.resolve('less-loader'),
             {
-              loader: 'postcss-loader',
+              loader: require.resolve('postcss-loader'),
               options: {
                 ident: 'postcss',
                 plugins: (loader) => [
@@ -122,7 +122,7 @@ module.exports = ({
           test: /\.(png|jpg|gif)$/,
           use: [
             {
-              loader: 'url-loader',
+              loader: require.resolve('url-loader'),
               options: {
                 limit: 8192, //小于8kg的会进行base64的保存方式导出到js
                 name: `${isDev ? '[name]' : '[contenthash:8]'}.[ext]`,

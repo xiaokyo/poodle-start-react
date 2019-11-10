@@ -5,7 +5,6 @@ const { version } = package
 const { useServer } = require('../server')
 
 program.version(version)
-const rootPath = process.cwd() // 命令运行的根目录
 program
   .command('dev')
   .description('运行开发环境')

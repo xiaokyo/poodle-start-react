@@ -14,7 +14,7 @@
   },
   "author": "xiaokyo <xiaokyooliver@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
@@ -24,6 +24,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.0",
     "babel-plugin-react-css-modules": "^5.2.6",
+    "braft-editor": "^2.3.8",
     "chalk": "^2.4.2",
     "clean-webpack-plugin": "^3.0.0",
     "commander": "^3.0.2",
